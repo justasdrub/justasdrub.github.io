@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitud de Materiales</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+<style>
+    body {
+        background-color: #e5e6e8; /* Cool Gray 11 C - 20% */
+        padding: 20px;
+        background-image: url("Texturas-04.png");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: bottom;
+        background-attachment: fixed;
+    }
+
+    .container {
+        background: white;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .list-group-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .btn-volver {
+        margin-right: 10px;
+        background-color: #53565A; /* Cool Gray 11 C */
+        color: white;
+        border: none;
+    }
+
+    .btn-volver:hover {
+        background-color: #3a3c3e;
+    }
+
+    .btn-primary {
+        background-color: #003B5C; /* Pantone 302 C */
+        border-color: #003B5C;
+    }
+
+    .btn-primary:hover {
+        background-color: #002f4a;
+        border-color: #002f4a;
+    }
+
+    .btn-danger {
+        background-color: #B54321; /* Pantone 1525 C */
+        border-color: #B54321;
+    }
+
+    .btn-danger:hover {
+        background-color: #94341a;
+        border-color: #94341a;
+    }
+
+    .alert-info {
+        background-color: #a7c3d6; /* Pantone 302 C - 40% */
+        color: #003B5C;
+        border-color: #6ca1c2;
+    }
+
+    .logo-uat {
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        height: auto;
+        width: 180px;
+        z-index: 1500;
+        transition: opacity 0.3s ease;
+    }
+</style>
+
+</head>
+<body>
+<img src="UAT Vertical Blanco.png" alt="Logo UAT" class="logo-uat">
+            <div class="container">
+        <div class="header-container">
+            <h2 class="my-3">📝 Solicitud de Materiales</h2>
+            <div>
+                <a href="inventario.html" class="btn btn-secondary btn-volver">← Volver al Inventario</a>
+                <button id="btnLimpiar" class="btn btn-danger">Limpiar solicitud</button>
+            </div>
+        </div>
+        <ul class="nav nav-tabs mb-3">
+            <li class="nav-item">
+                <a class="nav-link" href="inventario.html">Inventario</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Solicitud</a>
+            </li>
+        </ul>
+        
+        <div class="alert alert-info">
+            <strong>Materiales seleccionados:</strong> <span id="contadorItems">0</span> items
+        </div>
+        
+        <ul id="listaSolicitud" class="list-group mb-4">
+            <li class="list-group-item text-muted">No hay materiales en la solicitud</li>
+        </ul>
+        
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Información de la solicitud</h5>
+                <form id="formSolicitud">
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <label for="nombre" class="form-label">Nombre del solicitante*</label>
+      <input type="text" class="form-control" id="nombre" required>
+    </div>
+    <div class="col-md-4">
+      <label for="laboratorio" class="form-label">Laboratorio*</label>
+      <input type="text" class="form-control" id="laboratorio" required>
+    </div>
+    <div class="col-md-4">
+      <label for="matricula" class="form-label">Matrícula del alumno*</label>
+      <input type="text" class="form-control" id="matricula" required>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <label for="email" class="form-label">Correo electrónico*</label>
+      <input type="email" class="form-control" id="email" required>
+    </div>
+    <div class="col-md-6">
+      <label for="telefono" class="form-label">Número de teléfono*</label>
+      <input type="tel" class="form-control" id="telefono" required>
+    </div>
+<div class="col-md-4">
+  <label for="fecha" class="form-label">Fecha de solicitud*</label>
+  <input type="date" class="form-control" id="fecha" required>
+</div>
+
+  </div>
+
+  <div class="mb-3">
+    <label for="observaciones" class="form-label">Observaciones</label>
+    <textarea class="form-control" id="observaciones" rows="2"></textarea>
+  </div>
+
+  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <button type="button" class="btn btn-outline-secondary me-md-2" onclick="window.location.href='inventario.html'">
+      ← Volver al Inventario
+    </button>
+    <button type="submit" class="btn btn-primary">
+      <i class="bi bi-send-fill"></i> Enviar solicitud
+    </button>
+  </div>
+</form>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Cargar solicitud
+        let solicitud = JSON.parse(localStorage.getItem('solicitudLaboratorio')) || [];
+        const listaSolicitud = document.getElementById('listaSolicitud');
+        
+        // Mostrar solicitud
+        function mostrarSolicitud() {
+            listaSolicitud.innerHTML = '';
+            document.getElementById('contadorItems').textContent = solicitud.length;
+            
+            if (solicitud.length === 0) {
+                listaSolicitud.innerHTML = '<li class="list-group-item text-muted">No hay materiales en la solicitud</li>';
+                return;
+            }
+            
+            solicitud.forEach((item, index) => {
+                const li = document.createElement('li');
+                li.className = 'list-group-item';
+                li.innerHTML = `
+                    <span>${item}</span>
+                    <button class="btn btn-sm btn-outline-danger btn-eliminar" data-index="${index}">
+                        <i class="bi bi-trash"></i> Eliminar
+                    </button>
+                `;
+                listaSolicitud.appendChild(li);
+            });
+            
+            // Agregar eventos a los botones de eliminar
+            document.querySelectorAll('.btn-eliminar').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const index = parseInt(this.getAttribute('data-index'));
+                    solicitud.splice(index, 1);
+                    localStorage.setItem('solicitudLaboratorio', JSON.stringify(solicitud));
+                    mostrarSolicitud();
+                });
+            });
+        }
+        
+        // Limpiar solicitud
+        document.getElementById('btnLimpiar').addEventListener('click', function() {
+            if (confirm('¿Estás seguro de que quieres limpiar toda la solicitud?')) {
+                solicitud = [];
+                localStorage.setItem('solicitudLaboratorio', JSON.stringify(solicitud));
+                mostrarSolicitud();
+            }
+        });
+        
+        // Enviar solicitud (simulado)
+        document.getElementById('formSolicitud').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (solicitud.length === 0) {
+                alert('Error: No hay materiales en la solicitud');
+                return;
+            }
+            
+            // Aquí normalmente harías una petición al servidor
+	const datosSolicitud = {
+    		nombre: document.getElementById('nombre').value,
+    		matricula: document.getElementById('matricula').value,
+    		laboratorio: document.getElementById('laboratorio').value,
+    		fecha: document.getElementById('fecha').value,
+    		observaciones: document.getElementById('observaciones').value,
+    		materiales: solicitud
+		};
+
+            
+            console.log('Solicitud a enviar:', datosSolicitud);
+            alert('Solicitud enviada correctamente');
+            
+            // Limpiar después de enviar
+            solicitud = [];
+            localStorage.setItem('solicitudLaboratorio', JSON.stringify(solicitud));
+            mostrarSolicitud();
+            this.reset();
+        });
+        
+        // Mostrar solicitud al cargar
+        mostrarSolicitud();
+    </script>
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+</body>
+</html>

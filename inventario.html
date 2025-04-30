@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventario de Laboratorio</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .table thead {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-action {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+        }
+        .badge-solicitud {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+.btn-flotante {
+    position: absolute;
+    right: 40px;
+    top: 100px;
+    z-index: 1000;
+    transition: top 0.3s ease, opacity 0.3s ease;
+    opacity: 1;
+}
+
+.btn-flotante.oculto {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.logo-uat {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    height: auto;
+    width: 200px; /* Ajusta según te guste */
+    z-index: 1500;
+    transition: opacity 0.3s ease;
+}
+
+    </style>
+<style>
+  body {
+    background-image: url("Texturas-04.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: bottom;
+    background-attachment: fixed;
+  }
+</style>
+
+</head>
+<body>
+<img src="UAT Vertical Blanco.png" alt="Logo UAT" class="logo-uat">
+    <div class="container">
+        <h2 class="text-center my-3">🔬 Sistema de Gestión de Materiales de Laboratorio</h2>
+        
+        <a href="solicitud.html" class="btn btn-primary position-relative badge-solicitud btn-flotante" id="btnVerSolicitud">
+    Ver Solicitud
+    <span id="contadorSolicitud" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                0
+    </span>
+</a>
+       
+        <ul class="nav nav-tabs mb-3">
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Inventario</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="solicitud.html">Solicitud</a>
+            </li>
+            <li class="nav-item">
+        </ul>
+        
+        <h4>Inventario Completo</h4>
+        <input type="text" class="form-control mb-3" placeholder="Buscar material..." id="busqueda">
+        
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Capacidad</th>
+                    <th>Unidad</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+<tbody id="tablaMateriales">
+                <!-- Materiales originales -->
+                <tr><td>Agitador de vidrio</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Agitador de vidrio" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Agitador magnético (pescaditos)</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Agitador magnético (pescaditos)" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Anillo metálico</td><td>10</td><td>cm</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Anillo metálico" data-capacidad="10" data-unidad="cm">➕ Agregar</button></td></tr>
+                <tr><td>Aparato de conductividad</td><td>Mediano</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Aparato de conductividad" data-capacidad="Mediano" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Aplicadores</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Aplicadores" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Tubo de Ensaye</td><td>13x100</td><td>mm</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Tubo de Ensaye" data-capacidad="13x100" data-unidad="mm">➕ Agregar</button></td></tr>
+                <tr><td>Tubo de Ensaye</td><td>16x150</td><td>mm</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Tubo de Ensaye" data-capacidad="16x150" data-unidad="mm">➕ Agregar</button></td></tr>
+                <tr><td>Tubo Thiele</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Tubo Thiele" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Matraz Erlenmeyer</td><td>500</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Matraz Erlenmeyer" data-capacidad="500" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Matraz de destilación</td><td>1000</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Matraz de destilación" data-capacidad="1000" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Probeta graduada</td><td>250</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Probeta graduada" data-capacidad="250" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Soporte universal</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Soporte universal" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Vidrio reloj</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Vidrio reloj" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Asa bacteriológica</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Asa bacteriológica" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Baño Maria</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Baño Maria" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Bureta</td><td>50</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Bureta" data-capacidad="50" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Caja Petri</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Caja Petri" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Camara de Neubauer</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Camara de Neubauer" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Capsula de porcelana</td><td>50</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Capsula de porcelana" data-capacidad="50" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Cremalleras</td><td>1</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Cremalleras" data-capacidad="1" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Cremalleras</td><td>5</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Cremalleras" data-capacidad="5" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Crisol</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Crisol" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Cubreobjetos</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Cubreobjetos" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Embudo Buchner</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Embudo Buchner" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Embudo de separación</td><td>250</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Embudo de separación" data-capacidad="250" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Embudo de filtración rápida</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Embudo de filtración rápida" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Espátula</td><td>N/A</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Espátula" data-capacidad="N/A" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Frasco con Gotero</td><td>60</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Frasco con Gotero" data-capacidad="60" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Frasco reactivo</td><td>500</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Frasco reactivo" data-capacidad="500" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Frasco Reactivo</td><td>1000</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Frasco Reactivo" data-capacidad="1000" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Frasco reactivo ambar</td><td>75</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Frasco reactivo ambar" data-capacidad="75" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Frascos Reactivos claro</td><td>75</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Frascos Reactivos claro" data-capacidad="75" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Gradilla</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Gradilla" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Jeringas</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Jeringas" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Manguera de hule</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Manguera de hule" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Mangueras de hule</td><td>9</td><td>mm</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Mangueras de hule" data-capacidad="9" data-unidad="mm">➕ Agregar</button></td></tr>
+                <tr><td>Matraz bola</td><td>250</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Matraz bola" data-capacidad="250" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Matraz bola</td><td>500</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Matraz bola" data-capacidad="500" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Matraz bola</td><td>1000</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Matraz bola" data-capacidad="1000" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Matraz de aforación</td><td>50</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Matraz de aforación" data-capacidad="50" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Matraz de aforación</td><td>100</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Matraz de aforación" data-capacidad="100" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Matraz de aforación</td><td>1000</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Matraz de aforación" data-capacidad="1000" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Matraz de destilación</td><td>250</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Matraz de destilación" data-capacidad="250" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Matraz de destilación</td><td>500</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Matraz de destilación" data-capacidad="500" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Matraz de destilación</td><td>1000</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Matraz de destilación" data-capacidad="1000" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Matraz de Erlenmeyer</td><td>250</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Matraz de Erlenmeyer" data-capacidad="250" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Matraz de Erlenmeyer</td><td>125</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Matraz de Erlenmeyer" data-capacidad="125" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Matraz de Erlenmeyer</td><td>50</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Matraz de Erlenmeyer" data-capacidad="50" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Matraz de Erlenmeyer</td><td>25</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Matraz de Erlenmeyer" data-capacidad="25" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Matraz Kitazato</td><td>500</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Matraz Kitazato" data-capacidad="500" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Matraz Kitazato</td><td>250</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Matraz Kitazato" data-capacidad="250" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Matraz Kjeldahl</td><td>500</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Matraz Kjeldahl" data-capacidad="500" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Matraz redondo</td><td>1500</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Matraz redondo" data-capacidad="1500" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Mechero Bunsen</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Mechero Bunsen" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Mechero Fisher</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Mechero Fisher" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Mortero con pistilo</td><td>125</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Mortero con pistilo" data-capacidad="125" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Parrilla de calentamiento con agitador</td><td>Mediana</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Parrilla de calentamiento con agitador" data-capacidad="Mediana" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Parrilla eléctrica</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Parrilla eléctrica" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Perilla</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Perilla" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Perlas de vidrio</td><td>Medianas</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Perlas de vidrio" data-capacidad="Medianas" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Pinzas de disección</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Pinzas de disección" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Pinzas de tres dedos</td><td>N/A</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Pinzas de tres dedos" data-capacidad="N/A" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Pinzas para Crisol</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Pinzas para Crisol" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Pinzas para bureta</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Pinzas para bureta" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Pinzas para tubo de ensaye</td><td>17</td><td>cm</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Pinzas para tubo de ensaye" data-capacidad="17" data-unidad="cm">➕ Agregar</button></td></tr>
+                <tr><td>Pipeta Beral</td><td>1</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Pipeta Beral" data-capacidad="1" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Pipeta de Thoma para globulos rojos</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Pipeta de Thoma para globulos rojos" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Pipeta graduada</td><td>2</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Pipeta graduada" data-capacidad="2" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Pipeta graduada</td><td>5</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Pipeta graduada" data-capacidad="5" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Pipeta graduada</td><td>10</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Pipeta graduada" data-capacidad="10" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Pipeta graduada</td><td>25</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Pipeta graduada" data-capacidad="25" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Pipeta pasteur</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Pipeta pasteur" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Pipeta vidrio</td><td>1</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Pipeta vidrio" data-capacidad="1" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Pipetas de vidrio</td><td>5.0</td><td>mL</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Pipetas de vidrio" data-capacidad="5.0" data-unidad="mL">➕ Agregar</button></td></tr>
+                <tr><td>Pipetas de vidrio</td><td>10</td><td>mL</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Pipetas de vidrio" data-capacidad="10" data-unidad="mL">➕ Agregar</button></td></tr>
+                <tr><td>Piseta</td><td>500</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Piseta" data-capacidad="500" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Placas de vidrio</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Placas de vidrio" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Portaobjetos</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Portaobjetos" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Probeta graduada</td><td>10</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Probeta graduada" data-capacidad="10" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Probeta graduada</td><td>25</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Probeta graduada" data-capacidad="25" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Probeta graduada</td><td>100</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Probeta graduada" data-capacidad="100" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Probeta graduada</td><td>250</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Probeta graduada" data-capacidad="250" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Refrigerante recto</td><td>200</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Refrigerante recto" data-capacidad="200" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Tamices #20</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Tamices #20" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Tapon dihoradado</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Tapon dihoradado" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Tapón horadado de tubo de ensayo</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Tapón horadado de tubo de ensayo" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Tapones para tubo de ensaye</td><td>16</td><td>mm</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Tapones para tubo de ensaye" data-capacidad="16" data-unidad="mm">➕ Agregar</button></td></tr>
+                <tr><td>Tela de Asbesto</td><td>6x6</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Tela de Asbesto" data-capacidad="6x6" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Termometro</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Termometro" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Trampa de agua</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Trampa de agua" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Trampa de vacío</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Trampa de vacío" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Triángulo de porcelana</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Triángulo de porcelana" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Tripie</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Tripie" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Tubos capilares</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Tubos capilares" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Varillas de vidrio</td><td>-</td><td>-</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Varillas de vidrio" data-capacidad="-" data-unidad="-">➕ Agregar</button></td></tr>
+                <tr><td>Vaso de precipitado</td><td>600</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Vaso de precipitado" data-capacidad="600" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Vaso de Precipitado</td><td>250</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Vaso de Precipitado" data-capacidad="250" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Vaso de Precipitado</td><td>150</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Vaso de Precipitado" data-capacidad="150" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Vaso de precipitado graduado</td><td>100</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Vaso de precipitado graduado" data-capacidad="100" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Vaso de precipitado</td><td>20</td><td>ml</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Vaso de precipitado" data-capacidad="20" data-unidad="ml">➕ Agregar</button></td></tr>
+                <tr><td>Vidrio de Cobalto</td><td>2x2</td><td>cm</td><td><button class="btn btn-primary btn-sm btn-agregar" data-nombre="Vidrio de Cobalto" data-capacidad="2x2" data-unidad="cm">➕ Agregar</button></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Cargar solicitud existente o inicializar
+        let solicitud = JSON.parse(localStorage.getItem('solicitudLaboratorio')) || [];
+        
+        // Actualizar contador
+        function actualizarContador() {
+            document.getElementById('contadorSolicitud').textContent = solicitud.length;
+            localStorage.setItem('solicitudLaboratorio', JSON.stringify(solicitud));
+        }
+        
+        // Agregar material a la solicitud
+        document.querySelectorAll('.btn-agregar').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const nombre = this.getAttribute('data-nombre');
+                const capacidad = this.getAttribute('data-capacidad');
+                const unidad = this.getAttribute('data-unidad');
+                
+                solicitud.push(`${nombre} - ${capacidad} ${unidad}`);
+                actualizarContador();
+                
+                // Feedback visual
+                this.textContent = '✔️ Agregado';
+                this.classList.remove('btn-primary');
+                this.classList.add('btn-success');
+                setTimeout(() => {
+                    this.textContent = '➕ Agregar';
+                    this.classList.remove('btn-success');
+                    this.classList.add('btn-primary');
+                }, 1000);
+            });
+        });
+        
+        // Busqueda de materiales
+        document.getElementById('busqueda').addEventListener('input', function() {
+            const busqueda = this.value.toLowerCase();
+            const filas = document.querySelectorAll('#tablaMateriales tr');
+            
+            filas.forEach(fila => {
+                const textoFila = fila.textContent.toLowerCase();
+                fila.style.display = textoFila.includes(busqueda) ? '' : 'none';
+            });
+        });
+        
+        // Inicializar contador
+        actualizarContador();
+    </script>
+<script>
+    const btnFlotante = document.getElementById('btnVerSolicitud');
+    const topMin = 100;
+
+    let lastScrollY = window.scrollY;
+
+    function moverBotonConScroll() {
+        const scrollTop = window.scrollY;
+        const nuevaPosicion = Math.max(scrollTop + 20, topMin);
+        btnFlotante.style.top = `${nuevaPosicion}px`;
+
+        // Oculta si estamos muy arriba
+        if (scrollTop < 50) {
+            btnFlotante.classList.add('oculto');
+        } else {
+            btnFlotante.classList.remove('oculto');
+        }
+
+        lastScrollY = scrollTop;
+    }
+
+    window.addEventListener('scroll', moverBotonConScroll);
+    moverBotonConScroll();
+</script>
+
+</body>
+</html>
