@@ -236,6 +236,13 @@
         materialesInput.value = JSON.stringify(solicitud);
         formSolicitud.appendChild(materialesInput);
 
+        // Agregar el campo de Observaciones al formulario antes de enviarlo
+        const observacionesInput = document.createElement('input');
+        observacionesInput.type = 'hidden';
+        observacionesInput.name = 'observaciones';
+        observacionesInput.value = document.getElementById('observaciones').value;
+        formSolicitud.appendChild(observacionesInput);
+
         // Ahora el formulario puede enviarse normalmente a Formspree
         formSolicitud.submit();
     });
