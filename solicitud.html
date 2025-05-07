@@ -153,11 +153,6 @@
       <label for="matricula" class="form-label">Matrícula del alumno*</label>
       <input type="text" class="form-control" id="matricula" name="matricula" required>
     </div>
-<div class="col-md-4">
-  <label for="fotoMatricula" class="form-label">Foto de Matrícula*</label>
-  <input type="file" class="form-control" id="fotoMatricula" accept="image/*" name="fotoMatricula" required>
-</div>
-
   </div>
 
   <div class="row mb-3">
@@ -196,20 +191,6 @@
     </div>
 
     <script>
-	    const archivo = document.getElementById('fotoMatricula').files[0];
-
-if (archivo) {
-    const lector = new FileReader();
-    lector.onload = function(e) {
-        datosSolicitud.fotoMatricula = e.target.result;
-        console.log('Solicitud a enviar:', datosSolicitud);
-        alert('Solicitud enviada correctamente');
-    };
-    lector.readAsDataURL(archivo);
-} else {
-    alert('Debes adjuntar una foto de la matrícula');
-    return;
-}
         // Cargar solicitud
         let solicitud = JSON.parse(localStorage.getItem('solicitudLaboratorio')) || [];
         const listaSolicitud = document.getElementById('listaSolicitud');
