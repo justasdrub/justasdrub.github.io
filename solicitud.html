@@ -180,6 +180,7 @@
 <script>
     let solicitud = JSON.parse(localStorage.getItem('solicitudLaboratorio')) || [];
     const listaSolicitud = document.getElementById('listaSolicitud');
+    const formSolicitud = document.getElementById('formSolicitud');
 
     function mostrarSolicitud() {
         listaSolicitud.innerHTML = '';
@@ -220,7 +221,7 @@
         }
     });
 
-    document.getElementById('formSolicitud').addEventListener('submit', function (e) {
+    formSolicitud.addEventListener('submit', function (e) {
         e.preventDefault();
 
         if (solicitud.length === 0) {
@@ -228,27 +229,19 @@
             return;
         }
 
-        const datosSolicitud = {
-            nombre: document.getElementById('nombre').value,
-            matricula: document.getElementById('matricula').value,
-            laboratorio: document.getElementById('laboratorio').value,
-            fecha: document.getElementById('fecha').value,
-            observaciones: document.getElementById('observaciones').value,
-            materiales: solicitud,
-            semestre: document.getElementById('semestre').value
-            document.getElementById('formSolicitud').addEventListener(...)
-        };
+        // Asignar los materiales seleccionados a un campo oculto del formulario
+        const materialesInput = document.createElement('input');
+        materialesInput.type = 'hidden';
+        materialesInput.name = 'materiales';
+        materialesInput.value = JSON.stringify(solicitud);
+        formSolicitud.appendChild(materialesInput);
 
-        console.log('Solicitud a enviar:', datosSolicitud);
-        alert('Solicitud enviada correctamente');
-
-        solicitud = [];
-        localStorage.setItem('solicitudLaboratorio', JSON.stringify(solicitud));
-        mostrarSolicitud();
-        this.reset();
+        // Ahora el formulario puede enviarse normalmente a Formspree
+        formSolicitud.submit();
     });
 
     mostrarSolicitud();
 </script>
+
 </body>
 </html>
